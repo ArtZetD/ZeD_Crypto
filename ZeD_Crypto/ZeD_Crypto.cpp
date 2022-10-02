@@ -4,6 +4,9 @@
 #include<tchar.h>
 #include<vector>
 #include <atlstr.h>
+#include<fstream>
+#include<iterator>
+#include<cstdio>
 namespace filesystem = std::filesystem;
 
 //void get_files(std::vector<std::string>& paths, std::string root_path)
@@ -43,9 +46,9 @@ int main()
 {
 	TCHAR sz_buffer[256];  
 	LPCTSTR buffer_ptr = sz_buffer; 
-	DWORD d_logical_drive_string;
+	//DWORD d_logical_drive_string;
 	GetLogicalDriveStrings(255, sz_buffer);
-	LPCTSTR removable_drive_ptr;
+	//LPCTSTR removable_drive_ptr;
 	std::vector<std::string> paths;
 
 	for (buffer_ptr; *buffer_ptr != '\0'; buffer_ptr += _tcsclen(sz_buffer) + 1) 
@@ -56,13 +59,36 @@ int main()
 			std::cout << "the removable drive has root name - ";
 			get_files(paths, buffer_ptr);
 			std::cout << '\n';
-		}
-	}
 
-	for (size_t i = 0; i < paths.size(); ++i)
-	{
-		//std::cout << paths[i] << '\n';
+			for (size_t i = 2; i < paths.size(); ++i) // first 2 files is system file
+			{
+				std::string old_path = paths[i]; // 
+				std::string new_path = paths[i]; // 
+				const char point = '.';
+				size_t name_start_iter = new_path.find_last_of('\\');
+				size_t dot = new_path.find_last_of('.');
+				//new_path.erase(name_start_iter, 7);
+
+
+				const char* char_old_path = old_path.c_str();
+				const char* char_new_path = new_path.c_str();
+
+				std::cout << "before rename\n" << old_path << std::endl;
+
+				new_path.insert(dot, "new");
+				std::cout << "after rename\n" << new_path << std::endl;
+
+				std::rename(char_old_path, char_new_path);
+
+			}
+		}
+		else
+		{
+			continue;
+		}
 		
 	}
+
+	return 0;
 }
 
