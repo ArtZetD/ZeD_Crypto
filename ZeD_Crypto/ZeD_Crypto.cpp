@@ -25,7 +25,7 @@ namespace filesystem = std::filesystem;
 //	}
 //}
 
-void get_files(std::vector<std::string>& paths, LPCTSTR root_path)
+void get_files(std::vector<std::filesystem::path>& paths, LPCTSTR root_path)  //get all files in root dir
 {
 	CStringA stringA(root_path);
 	const char* const_char_root_path = stringA;
@@ -43,7 +43,7 @@ void get_files(std::vector<std::string>& paths, LPCTSTR root_path)
 	}
 }
 
-void fill_paths(std::vector<std::string>& paths)
+void fill_paths(std::vector<std::filesystem::path>& paths) // fill vector of paths with all full path in root dir
 {
 	TCHAR sz_buffer[256];
 	LPCTSTR buffer_ptr = sz_buffer;
@@ -57,26 +57,35 @@ void fill_paths(std::vector<std::string>& paths)
 		}
 	}
 }
+void encrypt(std::vector<std::filesystem::path>& paths) // encrypt all files in root dir
+{
+	for (size_t i = 2; i < paths.size(); ++i)
+	{
+		std::string ENCRYPT_COMMAND = "openssl aes-256-cbc -a -salt -pbkdf2  -in " + paths[i].string() + " -out " + paths[i].string() + ".encr";
+		system(ENCRYPT_COMMAND.c_str());
+		ENCRYPT_COMMAND.clear();
+		std::cout << paths[i];
+		remove(paths[i].string().c_str());
+	}
+}
+void decrypt(std::vector<std::filesystem::path>& paths) // decrypt all files in root dir
+{
+	for (size_t i = 2; i < paths.size(); ++i)
+	{
+		std::string DERYPT_COMMAND = "openssl aes-256-cbc -d -a -salt -pbkdf2  -in " + paths[i].string() + " -out " + paths[i].string().erase(paths[i].string().find_last_of('.'), paths[i].string().size());
+		system(DERYPT_COMMAND.c_str());
+		DERYPT_COMMAND.clear();
+		std::cout << paths[i];
+		remove(paths[i].string().c_str());
+	}
+}
 int main()
 {
-	std::vector<std::string> paths;
-
-	//system("C://ZeD_Crypto//test.txt -out C://ZeD_Crypto//test.txt -pass passwd.txt"); //-"openssl aes-256-cbc -a -salt -pbkdf2 -in C://ZeD_Crypto//test.txt -out C://ZeD_Crypto//testenc.txt"
-	
-	 std::string ENCRYPT_COMMAND = " ";
-	 std::string DECRYPT_COMMAND = "openssl aes-256-cbc -d -a -salt -pbkdf2 ";
-
+	std::vector<std::filesystem::path> paths;
 	  fill_paths(paths);
-	
-	  system("openssl aes-256-cbc -a -salt -pbkdf2 -in W://very_important_dir//very_important_subdir//not_super_important_dir//secret2//filefilefileencrypnewnew.txt -out W://very_important_dir//very_important_subdir//not_super_important_dir//secret2//filefilefileencrypnewnew.encr");
-	//for (size_t i = 2; i < paths.size(); ++i)
-	//{
-	//	ENCRYPT_COMMAND += "-in " + paths[i] + " -out " + paths[i].erase(paths[i].find_last_of('.'), paths[i].size()) + ".encr";
-	//	system(ENCRYPT_COMMAND.c_str());
-	//	remove(paths[i].c_str());
-	//}
 
-	
+	 // encrypt(paths);
+	  decrypt(paths);
 }
 
 
