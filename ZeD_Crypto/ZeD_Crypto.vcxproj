@@ -144,6 +144,9 @@
   <ItemGroup>
     <ClCompile Include="ZeD_Crypto.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ZeD_Crypto.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
